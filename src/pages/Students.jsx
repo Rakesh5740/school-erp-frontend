@@ -4,6 +4,7 @@ import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 
 function Students() {
   const [search, setSearch] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const students = [
     {
@@ -56,13 +57,16 @@ function Students() {
           </p>
         </div>
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2">
+        <button
+          onClick={() => setShowModal(true)}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2"
+        >
           <FaPlus />
           Add Student
         </button>
       </div>
 
-      {/* Search Box */}
+      {/* Search */}
       <div className="bg-white p-4 rounded-lg shadow mb-4">
         <input
           type="text"
@@ -96,26 +100,11 @@ function Students() {
                 className="border-b odd:bg-white even:bg-gray-50 hover:bg-blue-50"
               >
                 <td className="p-4">{student.id}</td>
-
-                <td className="p-4">
-                  {student.admissionNo}
-                </td>
-
-                <td className="p-4 font-medium">
-                  {student.name}
-                </td>
-
-                <td className="p-4">
-                  {student.className}
-                </td>
-
-                <td className="p-4">
-                  {student.phone}
-                </td>
-
-                <td className="p-4">
-                  {student.email}
-                </td>
+                <td className="p-4">{student.admissionNo}</td>
+                <td className="p-4 font-medium">{student.name}</td>
+                <td className="p-4">{student.className}</td>
+                <td className="p-4">{student.phone}</td>
+                <td className="p-4">{student.email}</td>
 
                 <td className="p-4">
                   <span
@@ -143,6 +132,62 @@ function Students() {
           </tbody>
         </table>
       </div>
+
+      {/* Add Student Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
+            <h2 className="text-2xl font-bold mb-4">
+              Add Student
+            </h2>
+
+            <div className="space-y-3">
+              <input
+                type="text"
+                placeholder="Admission No"
+                className="w-full border p-3 rounded-lg"
+              />
+
+              <input
+                type="text"
+                placeholder="Student Name"
+                className="w-full border p-3 rounded-lg"
+              />
+
+              <input
+                type="email"
+                placeholder="Email"
+                className="w-full border p-3 rounded-lg"
+              />
+
+              <input
+                type="text"
+                placeholder="Phone"
+                className="w-full border p-3 rounded-lg"
+              />
+
+              <select className="w-full border p-3 rounded-lg">
+                <option>10-A</option>
+                <option>10-B</option>
+                <option>9-A</option>
+              </select>
+            </div>
+
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-500 text-white rounded-lg"
+              >
+                Cancel
+              </button>
+
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminLayout>
   );
 }
