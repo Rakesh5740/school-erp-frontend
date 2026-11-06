@@ -8,6 +8,7 @@ import Subjects from "./pages/Subjects";
 import Attendance from "./pages/Attendance";
 import Exams from "./pages/Exams";
 import Results from "./pages/Results";
+import Fees from "./pages/Fees";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/exams" element={<Exams />} />
         <Route path="/results" element={<Results />} />
+        <Route path="/fees" element={<Fees />} />
 
       </Routes>
     </BrowserRouter>
