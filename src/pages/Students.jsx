@@ -1,7 +1,10 @@
+import { useState } from "react";
 import AdminLayout from "../layouts/AdminLayout";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 
 function Students() {
+  const [search, setSearch] = useState("");
+
   const students = [
     {
       id: 1,
@@ -32,6 +35,13 @@ function Students() {
     },
   ];
 
+  const filteredStudents = students.filter(
+    (student) =>
+      student.name.toLowerCase().includes(search.toLowerCase()) ||
+      student.email.toLowerCase().includes(search.toLowerCase()) ||
+      student.admissionNo.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <AdminLayout>
       {/* Header */}
@@ -42,7 +52,7 @@ function Students() {
           </h1>
 
           <p className="text-gray-500 mt-1">
-            Total Students: {students.length}
+            Total Students: {filteredStudents.length}
           </p>
         </div>
 
@@ -52,12 +62,14 @@ function Students() {
         </button>
       </div>
 
-      {/* Search */}
+      {/* Search Box */}
       <div className="bg-white p-4 rounded-lg shadow mb-4">
         <input
           type="text"
           placeholder="Search Student..."
-          className="w-full md:w-80 border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-400"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full md:w-80 border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -78,7 +90,7 @@ function Students() {
           </thead>
 
           <tbody>
-            {students.map((student) => (
+            {filteredStudents.map((student) => (
               <tr
                 key={student.id}
                 className="border-b odd:bg-white even:bg-gray-50 hover:bg-blue-50"
@@ -107,7 +119,7 @@ function Students() {
 
                 <td className="p-4">
                   <span
-                    className={`px-3 py-1 rounded-full text-sm text-white ${
+                    className={`px-3 py-1 rounded-full text-white ${
                       student.status === "Active"
                         ? "bg-green-500"
                         : "bg-red-500"

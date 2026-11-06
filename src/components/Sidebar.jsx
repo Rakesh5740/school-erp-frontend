@@ -1,124 +1,99 @@
-import { Link } from "react-router-dom";
-import { FaSchool } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 import {
   FaTachometerAlt,
   FaUserGraduate,
   FaChalkboardTeacher,
+  FaSchool,
   FaBook,
   FaClipboardCheck,
   FaFileAlt,
   FaMoneyBill,
-  FaCog,
+  FaChartLine,
 } from "react-icons/fa";
 
 function Sidebar() {
+  const navClass = ({ isActive }) =>
+    `flex items-center gap-3 p-3 rounded-lg transition ${
+      isActive
+        ? "bg-white text-blue-700 font-semibold"
+        : "text-white hover:bg-blue-600"
+    }`;
+
   return (
-    <div className="w-64 h-screen bg-blue-700 text-white fixed left-0 top-0">
+    <div className="w-64 h-screen bg-blue-700 fixed left-0 top-0">
+
       <div className="p-6 border-b border-blue-600">
-        <h1 className="text-2xl font-bold">School ERP</h1>
+        <h1 className="text-2xl font-bold text-white">
+          School ERP
+        </h1>
       </div>
 
       <nav className="p-4">
         <ul className="space-y-2">
+
           <li>
-            <Link
-              to="/"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
-            >
+            <NavLink to="/" className={navClass}>
               <FaTachometerAlt />
               Dashboard
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link
-              to="/students"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
-            >
+            <NavLink to="/students" className={navClass}>
               <FaUserGraduate />
               Students
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link
-              to="/teachers"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
-            >
+            <NavLink to="/teachers" className={navClass}>
               <FaChalkboardTeacher />
               Teachers
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link
-              to="/classes"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600"
-            >
+            <NavLink to="/classes" className={navClass}>
               <FaSchool />
               Classes
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link
-              to="/subjects"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
-            >
+            <NavLink to="/subjects" className={navClass}>
               <FaBook />
               Subjects
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link
-              to="/attendance"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
-            >
+            <NavLink to="/attendance" className={navClass}>
               <FaClipboardCheck />
               Attendance
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link
-              to="/exams"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
-            >
+            <NavLink to="/exams" className={navClass}>
               <FaFileAlt />
               Exams
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link
-              to="/results"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
-            >
-              <FaFileAlt />
+            <NavLink to="/results" className={navClass}>
+              <FaChartLine />
               Results
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link
-              to="/fees"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
-            >
+            <NavLink to="/fees" className={navClass}>
               <FaMoneyBill />
               Fees
-            </Link>
+            </NavLink>
           </li>
 
-          <li>
-            <Link
-              to="/settings"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
-            >
-              <FaCog />
-              Settings
-            </Link>
-          </li>
         </ul>
       </nav>
     </div>
