@@ -92,6 +92,16 @@ function Sidebar() {
 
           <li>
             <Link
+              to="/results"
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
+            >
+              <FaFileAlt />
+              Results
+            </Link>
+          </li>
+
+          <li>
+            <Link
               to="/fees"
               className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600 transition"
             >
