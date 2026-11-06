@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FaSchool } from "react-icons/fa";
 import {
   FaTachometerAlt,
   FaUserGraduate,
@@ -14,14 +15,11 @@ function Sidebar() {
   return (
     <div className="w-64 h-screen bg-blue-700 text-white fixed left-0 top-0">
       <div className="p-6 border-b border-blue-600">
-        <h1 className="text-2xl font-bold">
-          School ERP
-        </h1>
+        <h1 className="text-2xl font-bold">School ERP</h1>
       </div>
 
       <nav className="p-4">
         <ul className="space-y-2">
-
           <li>
             <Link
               to="/"
@@ -49,6 +47,16 @@ function Sidebar() {
             >
               <FaChalkboardTeacher />
               Teachers
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/classes"
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-600"
+            >
+              <FaSchool />
+              Classes
             </Link>
           </li>
 
@@ -101,7 +109,6 @@ function Sidebar() {
               Settings
             </Link>
           </li>
-
         </ul>
       </nav>
     </div>
