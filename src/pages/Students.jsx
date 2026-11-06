@@ -1,13 +1,14 @@
 import { useState } from "react";
 import AdminLayout from "../layouts/AdminLayout";
-import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import Modal from "../components/Modal";
+import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 
 function Students() {
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [editId, setEditId] = useState(null);
 
-  const students = [
+  const [students, setStudents] = useState([
     {
       id: 1,
       admissionNo: "ADM001",
@@ -35,7 +36,80 @@ function Students() {
       email: "john@gmail.com",
       status: "Inactive",
     },
-  ];
+  ]);
+
+  const [formData, setFormData] = useState({
+    admissionNo: "",
+    name: "",
+    className: "",
+    phone: "",
+    email: "",
+  });
+
+  const handleEdit = (student) => {
+    setEditId(student.id);
+
+    setFormData({
+      admissionNo: student.admissionNo,
+      name: student.name,
+      className: student.className,
+      phone: student.phone,
+      email: student.email,
+    });
+
+    setShowModal(true);
+  };
+
+  const handleDelete = (id) => {
+    setStudents(students.filter((student) => student.id !== id));
+  };
+
+  const handleSaveStudent = () => {
+    if (!formData.admissionNo || !formData.name || !formData.className) {
+      alert("Please fill required fields");
+      return;
+    }
+
+    if (editId !== null) {
+      const updatedStudents = students.map((student) =>
+        student.id === editId
+          ? {
+              ...student,
+              admissionNo: formData.admissionNo,
+              name: formData.name,
+              className: formData.className,
+              phone: formData.phone,
+              email: formData.email,
+            }
+          : student,
+      );
+
+      setStudents(updatedStudents);
+    } else {
+      const newStudent = {
+        id: students.length + 1,
+        admissionNo: formData.admissionNo,
+        name: formData.name,
+        className: formData.className,
+        phone: formData.phone,
+        email: formData.email,
+        status: "Active",
+      };
+
+      setStudents([...students, newStudent]);
+    }
+
+    setFormData({
+      admissionNo: "",
+      name: "",
+      className: "",
+      phone: "",
+      email: "",
+    });
+
+    setEditId(null);
+    setShowModal(false);
+  };
 
   const filteredStudents = students.filter(
     (student) =>
@@ -46,7 +120,6 @@ function Students() {
 
   return (
     <AdminLayout>
-      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold">Students Management</h1>
@@ -57,7 +130,19 @@ function Students() {
         </div>
 
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            setEditId(null);
+
+            setFormData({
+              admissionNo: "",
+              name: "",
+              className: "",
+              phone: "",
+              email: "",
+            });
+
+            setShowModal(true);
+          }}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2"
         >
           <FaPlus />
@@ -65,18 +150,15 @@ function Students() {
         </button>
       </div>
 
-      {/* Search */}
       <div className="bg-white p-4 rounded-lg shadow mb-4">
         <input
           type="text"
           placeholder="Search Student..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full md:w-80 border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full md:w-80 border border-gray-300 rounded-lg px-4 py-2"
         />
       </div>
-
-      {/* Table */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <table className="w-full">
           <thead>
@@ -99,10 +181,15 @@ function Students() {
                 className="border-b odd:bg-white even:bg-gray-50 hover:bg-blue-50"
               >
                 <td className="p-4">{student.id}</td>
+
                 <td className="p-4">{student.admissionNo}</td>
-                <td className="p-4 font-medium">{student.name}</td>
+
+                <td className="p-4">{student.name}</td>
+
                 <td className="p-4">{student.className}</td>
+
                 <td className="p-4">{student.phone}</td>
+
                 <td className="p-4">{student.email}</td>
 
                 <td className="p-4">
@@ -118,11 +205,17 @@ function Students() {
                 </td>
 
                 <td className="p-4 text-center">
-                  <button className="bg-green-500 text-white p-2 rounded mr-2 hover:bg-green-600">
+                  <button
+                    onClick={() => handleEdit(student)}
+                    className="bg-green-500 text-white p-2 rounded mr-2 hover:bg-green-600"
+                  >
                     <FaEdit />
                   </button>
 
-                  <button className="bg-red-500 text-white p-2 rounded hover:bg-red-600">
+                  <button
+                    onClick={() => handleDelete(student.id)}
+                    className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
+                  >
                     <FaTrash />
                   </button>
                 </td>
@@ -132,35 +225,75 @@ function Students() {
         </table>
       </div>
 
-      {/* Add Student Modal */}
       {showModal && (
-        <Modal title="Add Student" onClose={() => setShowModal(false)}>
+        <Modal
+          title={editId ? "Edit Student" : "Add Student"}
+          onClose={() => setShowModal(false)}
+        >
           <div className="space-y-3">
             <input
               type="text"
               placeholder="Admission No"
+              value={formData.admissionNo}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  admissionNo: e.target.value,
+                })
+              }
               className="w-full border p-3 rounded-lg"
             />
 
             <input
               type="text"
               placeholder="Student Name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  name: e.target.value,
+                })
+              }
               className="w-full border p-3 rounded-lg"
             />
 
             <input
               type="email"
               placeholder="Email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  email: e.target.value,
+                })
+              }
               className="w-full border p-3 rounded-lg"
             />
 
             <input
               type="text"
               placeholder="Phone"
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  phone: e.target.value,
+                })
+              }
               className="w-full border p-3 rounded-lg"
             />
 
-            <select className="w-full border p-3 rounded-lg">
+            <select
+              value={formData.className}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  className: e.target.value,
+                })
+              }
+              className="w-full border p-3 rounded-lg"
+            >
+              <option value="">Select Class</option>
               <option>10-A</option>
               <option>10-B</option>
               <option>9-A</option>
@@ -174,8 +307,11 @@ function Students() {
                 Cancel
               </button>
 
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg">
-                Save
+              <button
+                onClick={handleSaveStudent}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+              >
+                {editId ? "Update" : "Save"}
               </button>
             </div>
           </div>
