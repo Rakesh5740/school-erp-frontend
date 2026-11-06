@@ -5,6 +5,7 @@ import Students from "./pages/Students";
 import Teachers from "./pages/Teachers";
 import Classes from "./pages/Classes";
 import Subjects from "./pages/Subjects";
+import Attendance from "./pages/Attendance";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/teachers" element={<Teachers />} />
         <Route path="/classes" element={<Classes />} />
         <Route path="/subjects" element={<Subjects />} />
+        <Route path="/attendance" element={<Attendance />} />
       </Routes>
     </BrowserRouter>
   );
