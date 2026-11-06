@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AdminLayout from "../layouts/AdminLayout";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import Modal from "../components/Modal";
 
 function Students() {
   const [search, setSearch] = useState("");
@@ -40,7 +41,7 @@ function Students() {
     (student) =>
       student.name.toLowerCase().includes(search.toLowerCase()) ||
       student.email.toLowerCase().includes(search.toLowerCase()) ||
-      student.admissionNo.toLowerCase().includes(search.toLowerCase())
+      student.admissionNo.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -48,9 +49,7 @@ function Students() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold">
-            Students Management
-          </h1>
+          <h1 className="text-3xl font-bold">Students Management</h1>
 
           <p className="text-gray-500 mt-1">
             Total Students: {filteredStudents.length}
@@ -135,58 +134,52 @@ function Students() {
 
       {/* Add Student Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
-            <h2 className="text-2xl font-bold mb-4">
-              Add Student
-            </h2>
+        <Modal title="Add Student" onClose={() => setShowModal(false)}>
+          <div className="space-y-3">
+            <input
+              type="text"
+              placeholder="Admission No"
+              className="w-full border p-3 rounded-lg"
+            />
 
-            <div className="space-y-3">
-              <input
-                type="text"
-                placeholder="Admission No"
-                className="w-full border p-3 rounded-lg"
-              />
+            <input
+              type="text"
+              placeholder="Student Name"
+              className="w-full border p-3 rounded-lg"
+            />
 
-              <input
-                type="text"
-                placeholder="Student Name"
-                className="w-full border p-3 rounded-lg"
-              />
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full border p-3 rounded-lg"
+            />
 
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full border p-3 rounded-lg"
-              />
+            <input
+              type="text"
+              placeholder="Phone"
+              className="w-full border p-3 rounded-lg"
+            />
 
-              <input
-                type="text"
-                placeholder="Phone"
-                className="w-full border p-3 rounded-lg"
-              />
+            <select className="w-full border p-3 rounded-lg">
+              <option>10-A</option>
+              <option>10-B</option>
+              <option>9-A</option>
+            </select>
 
-              <select className="w-full border p-3 rounded-lg">
-                <option>10-A</option>
-                <option>10-B</option>
-                <option>9-A</option>
-              </select>
-            </div>
-
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex justify-end gap-3 mt-4">
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-gray-500 text-white rounded-lg"
+                className="bg-gray-500 text-white px-4 py-2 rounded-lg"
               >
                 Cancel
               </button>
 
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg">
                 Save
               </button>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
     </AdminLayout>
   );
